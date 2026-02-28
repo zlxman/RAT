@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZLX.ma</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --brand-blue: #0284c7;
+            --brand-dark: #0f172a;
+            --brand-light: #f0f9ff;
+            --accent-green: #10b981;
+            --hacker-green: #00ff41;
+            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* General Settings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--brand-dark);
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        header.scrolled {
+            padding: 0.8rem 8%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            background: #ffffff;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--brand-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav ul li a {
+            font-weight: 600;
+            color: var(--brand-dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 8% 50px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+            gap: 40px;
+        }
+
+        .hero-content { flex: 1; }
+        .hero-content h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.2; margin-bottom: 1.5rem; font-weight: 900; }
+        .hero-content h1 span { color: var(--brand-blue); display: block; }
+
+        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; }
+        
+        /* رسمة SVG للقرصنة */
+        .hacker-svg { 
+            width: 100%; 
+            max-width: 450px; 
+            animation: float 6s infinite ease-in-out; 
+            filter: drop-shadow(0 0 15px rgba(2, 132, 199, 0.2));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Product Cards */
+        .section-padding { padding: 100px 8%; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+
+        .card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid #f1f5f9;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover { transform: translateY(-10px); box-shadow: var(--card-shadow); border-color: var(--brand-blue); }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--brand-light);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: var(--brand-blue);
+        }
+
+        /* Specs (Hidden by default) */
+        .specs-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+            background: #f8fafc;
+            border-radius: 15px;
+            margin-bottom: 0;
+        }
+
+        .specs-container.active {
+            max-height: 1000px;
+            margin-bottom: 20px;
+            padding: 15px;
+            transition: max-height 1s ease-in;
+        }
+
+        .specs-list { list-style: none; padding: 0; margin: 0; }
+        .specs-list li { font-size: 0.9rem; color: #475569; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .specs-list li i { color: var(--accent-green); }
+
+        .price-box { margin: 15px 0; text-align: center; }
+        .price-box .price { font-size: 2rem; font-weight: 900; color: var(--brand-dark); }
+
+        /* Buttons Group */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .btn-order { background: var(--brand-blue); color: white; }
+        .btn-order:hover { background: #0369a1; transform: scale(1.02); }
+
+        .btn-specs { background: #f1f5f9; color: var(--brand-dark); }
+        .btn-specs:hover { background: #e2e8f0; }
+        .btn-specs.active { background: var(--brand-dark); color: white; }
+
+        footer {
+            background: var(--brand-dark);
+            color: white;
+            padding: 80px 8% 40px;
+            border-radius: 50px 50px 0 0;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem 5%; }
+            nav { display: none; }
+            .hero { flex-direction: column; text-align: center; }
+            .card-actions { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo">
+            <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            ZLX.ma
+        </div>
+        <nav>
+        </nav>
+        <a href="https://wa.me/212777128266" class="btn btn-order" style="padding: 0.5rem 1.2rem;">
+            واتساب
+        </a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>لا تسمح بـ <span>اختراق بياناتك</span></h1>
+            <div style="display: flex; gap: 15px;">
+                <a href="#products" class="btn btn-order" style="padding: 1rem 2rem;">اشتري الآن</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- رسمة SVG تعبيرية للقرصنة (Hacker Illustration) -->
+            <svg class="hacker-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="250" cy="250" r="220" fill="#f1f5f9" />
+                <!-- الرمز البريدي الخلفي -->
+                <text x="100" y="150" fill="#0284c7" font-family="monospace" font-size="20" opacity="0.3">1010110</text>
+                <text x="350" y="380" fill="#0284c7" font-family="monospace" font-size="20" opacity="0.3">001101</text>
+                <!-- رأس القرصان المقنع -->
+                <path d="M250 120C180 120 140 170 140 240C140 310 180 360 250 360C320 360 360 310 360 240C360 170 320 120 250 120Z" fill="#1e293b" />
+                <!-- القناع -->
+                <path d="M160 200C160 180 190 170 250 170C310 170 340 180 340 200V250H160V200Z" fill="#f8fafc" />
+                <!-- العينين -->
+                <rect x="200" y="210" width="30" height="10" rx="5" fill="#1e293b" />
+                <rect x="270" y="210" width="30" height="10" rx="5" fill="#1e293b" />
+                <!-- اللابتوب السفلي -->
+                <rect x="150" y="340" width="200" height="15" rx="5" fill="#64748b" />
+                <path d="M180 355L160 390H340L320 355H180Z" fill="#475569" />
+            </svg>
+        </div>
+    </section>
+
+    <section id="products" class="section-padding">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h2>أقوى ادوات للاختراق.</h2>
+        </div>
+
+        <div class="grid-container">
+            <!-- Kaspersky -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-user-secret"></i></div>
+                <h3>ZLX CAM</h3>
+                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">اختراق الكاميرا والمايكروفون.</p>
+                
+                <div class="specs-container" id="specs-kas">
+                    <ul class="specs-list">
+                        <li><i class="fas fa-shield"></i> اختراق الكاميرا.</li>
+                        <li><i class="fas fa-lock"></i>اختراق المايكروفون.</li>
+                        <li><i class="fas fa-mask"></i> يشتغل التلقائي عند بدء تشغيل الجهاز.</li>
+                    </ul>
+                </div>
+
+                <div class="price-box">
+                    <span class="price">199درهم/15يوم</span>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-specs" onclick="toggleSpecs('specs-kas', this)">
+                        <i class="fas fa-eye"></i> مواصفات
+                    </button>
+                    <button class="btn btn-order" onclick="order('Kaspersky')">
+                        <i class="fas fa-shopping-cart"></i> شراء
+                    </button>
+                </div>
+            </div>
+
+            <!-- ESET -->
+            <div class="card">
+                <div class="card-icon" style="color: #10b981; background: #ecfdf5;"><i class="fas fa-code"></i></div>
+                <h3>ZLX PASS</h3>
+                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">كلمات سر.</p>
+                
+                <div class="specs-container" id="specs-eset">
+                    <ul class="specs-list">
+                        <li><i class="fas fa-bolt"></i> يشتغل التلقائي عند بدء تشغيل الجهاز.</li>
+                        <li><i class="fas fa-search"></i> إرسال قائمة بجميع كلمات سر المسجّلة على الجهاز.</li>
+                    </ul>
+                </div>
+
+                <div class="price-box">
+                    <span class="price">20درهم/15يوم</span>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-specs" onclick="toggleSpecs('specs-eset', this)">
+                        <i class="fas fa-eye"></i> مواصفات
+                    </button>
+                    <button class="btn btn-order" onclick="order('ESET')">
+                        <i class="fas fa-shopping-cart"></i> شراء
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bitdefender -->
+            <div class="card">
+                <div class="card-icon" style="color: #ef4444; background: #fef2f2;"><i class="fas fa-brain"></i></div>
+                <h3>ZLX RAT</h3>
+                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">تجسس على أي جهاز.</p>
+                
+                <div class="specs-container" id="specs-bit">
+                    <ul class="specs-list">
+                        <li><i class="fas fa-network-wired"></i> ارسال لقطة شاشة للجهاز كل 5 ثواني.</li>
+                        <li><i class="fas fa-ban"></i> ميزة التشغيل التلقائي عند بدء تشغيل الجهاز.</li>
+                    </ul>
+                </div>
+
+                <div class="price-box">
+                    <span class="price">20درهم/15يوم</span>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-specs" onclick="toggleSpecs('specs-bit', this)">
+                        <i class="fas fa-eye"></i> مواصفات
+                    </button>
+                    <button class="btn btn-order" onclick="order('Bitdefender')">
+                        <i class="fas fa-shopping-cart"></i> شراء
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div style="text-align: center;">
+            <p>&copy;ZLX 2026</p>
+            <p style="font-size: 0.8rem; color: #64748b; margin-top: 10px;"></p>
+        </div>
+    </footer>
+
+    <script>
+        // تغيير الهيدر عند السكرول
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // إظهار/إخفاء المواصفات
+        function toggleSpecs(id, btn) {
+            const container = document.getElementById(id);
+            const isActive = container.classList.contains('active');
+            
+            if (!isActive) {
+                container.classList.add('active');
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-times"></i> إخفاء';
+            } else {
+                container.classList.remove('active');
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fas fa-eye"></i> مواصفات';
+            }
+        }
+
+        // تحويل للواتساب
+        function order(product) {
+            const msg = `السلام عليكم، أريد شراء اداة ${product}. كيف يمكنني الشراء؟`;
+            window.open(`https://wa.me/212777128266?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
